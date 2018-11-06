@@ -1,0 +1,10 @@
+<# This Sysprep script eliminates all of windows sysprep errors. this is related to 
+all of the junk windows adds. #>
+
+Get-AppxPackage *Microsoft.DesktopAppInstaller* | Remove-AppxPackage
+
+%WINDIR%\system32\sysprep\sysprep.exe /generalize /shutdown /oobe
+
+<# NOTE: Check the Sysprep error long and when you find the app giving you an error, Use the top script to 
+remove it. copy paste the apps name in between *HERE*. #>
+
