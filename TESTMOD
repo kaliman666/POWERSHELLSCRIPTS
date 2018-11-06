@@ -1,0 +1,37 @@
+#Mod and Test
+
+#Set A local admin account
+$computername = $env:computername   # place computername here for remote access
+$username = 'localadmin'
+$password = 'P@ssw0rd1'
+$desc = 'Local admin account'
+$computer = [ADSI]"WinNT://$computername,computer"
+$user = $computer.Create("user", $username)
+$user.SetPassword($password)
+$user.Setinfo()
+$user.description = $desc
+$user.setinfo()
+$user.UserFlags = 65536
+$user.SetInfo()
+$group = [ADSI]("WinNT://$computername/administrators,group")
+$group.add("WinNT://$username,user")
+
+# Set computer name 
+$computerName = Get-WmiObject Win32_ComputerSystem 
+[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null 
+$name = [Microsoft.VisualBasic.Interaction]::InputBox("Enter Desired Computer Name ")
+$computername.rename("$name")
+
+#Now Join to Domain
+Add-Computer -DomainName [domainname] -Credential [user\domain]  -Verbose
+Restart-Computer
+
+
+<# Mod and test all codes if possible
+$domain = "domain.local"
+$password = "Passw@rd" | ConvertTo-SecureString -asPlainText -Force
+$username = "$domain\Administrator"
+$hostname=hostname
+$credential = New-Object System.Management.Automation.PSCredential($username,$password)
+Add-Computer -DomainName $domain -ComputerName $hostname -NewName alrootca -Credential $credential -Restart
+#>
