@@ -1,0 +1,21 @@
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Restricted -Force
+
+#Makes PS script executable
+set-executionpolicy remotesigned
+
+<#Grabs serial and adds it to the name of choice.
+Run this separate from the snip cmlet below.#>
+
+<# Replace "PRESET-NAME" to whatever you wish. this will add the name you preset + serialNumber
+for example "CVS-PC-2WS34FD5" and make sure the naming convention is no longer than 15 char long #>
+
+$NewName = "PRESET-NAME$((gwmi win32_bios).serialnumber)"
+Rename-Computer -NewName $NewName
+
+
+$domain = "DOMAIN.com"
+$password = "PASSWORD" | ConvertTo-SecureString -asPlainText -Force
+$username = "$DOMAIN\administrator"
+$credential = New-Object System.Management.Automation.PSCredential($username,$password)
+Add-Computer -DomainName $domain -Credential $credential
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Restricted -Force
