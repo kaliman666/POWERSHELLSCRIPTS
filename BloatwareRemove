@@ -1,0 +1,7 @@
+#This script will allow you to remove all of windows 10 bloatware and avoid any signature issues
+#with MS Office 2016 signature block. beware that itll also remove the windows app store (who uses that anyways?)
+
+
+
+Get-AppXProvisionedPackage -online | Remove-AppxProvisionedPackage -online
+Get-AppxPackage -AllUsers | Remove-AppxPackage
