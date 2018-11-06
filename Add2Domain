@@ -1,0 +1,24 @@
+#This created a secure password string for added security.
+read-host -assecurestring | convertfrom-securestring | out-file C:\securestring.txt
+
+
+$domain = "DOMAIN.COM" 
+$username = "Administrator" 
+#$password = Read-Host -Prompt "Enter password for $user" -AsSecureString 
+#Secure password string located in c:\ drive
+$password = cat C:\securestring.txt | convertto-securestring
+$username = "$domain\$username" 
+#$credential = New-Object System.Management.Automation.PSCredential($username,$password) 
+$credential = new-object -typename System.Management.Automation.PSCredential -argumentlist
+Add-Computer -DomainName $domain -Credential $credential
+
+
+
+
+#$domain = "DOMAIN.COM"
+#$password = cat C:\securestring.txt | convertto-securestring
+#$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist
+#$username, $password
+#Add-Computer -DomainName $domain -Credential $credential
+
+
