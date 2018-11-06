@@ -1,0 +1,14 @@
+$userid="$DOMAIN\$USERNAME"
+$secure_string_pwd = convertto-securestring "SECRET_PASSWORD" -asplaintext -force
+$creds = New-Object System.Management.Automation.PSCredential $userid,$secure_string_pwd
+
+Rename-Computer "newhostname" -DomainCredential $creds -Force
+WARNING: The changes will take effect after you restart the computer OLDHOSTNAME.
+
+Add-Computer -NewName "newhostname" -DomainName $DOMAIN -Credential $creds \
+-OUPath "OU=MYORG,OU=MYSUBORG,DC=THEDOMAIN,DC=Net" -Force
+WARNING: The changes will take effect after you restart the computer OLDHOSTNAME.
+
+Restart-Computer
+
+#TO-DO: Add serial number and prefix for renaming. 
