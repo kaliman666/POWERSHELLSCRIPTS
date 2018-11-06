@@ -1,0 +1,37 @@
+#Makes PS script executable
+set-executionpolicy remotesigned
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Restricted -Force
+
+#Removes bloatware
+Get-AppXProvisionedPackage -online | Remove-AppxProvisionedPackage -online
+Get-AppxPackage -AllUsers | Remove-AppxPackage
+
+
+#Grabs serial and adds it to the name of choice.
+#Run this separate from the snip cmlet below.
+$NewName = "PREFIXEDNAME$((gwmi win32_bios).serialnumber)"
+Rename-Computer -NewName $NewName
+
+
+$domain = "DOMAIN.COM"
+$password = "!Aegis@8th#" | ConvertTo-SecureString -asPlainText -Force
+$username = "$DOMAIN\ADMIN"
+$credential = New-Object System.Management.Automation.PSCredential($username,$password)
+Add-Computer -DomainName $domain -Credential $credential
+
+
+<# BAT SCRIPT
+powershell -command "& {Set-ExecutionPolicy Remotesigned}"
+powershell -file c:\domainjoin.ps1
+powershell -file e:\domainjoin.ps1
+powershell -file f:\domainjoin.ps1
+powershell -file g:\domainjoin.ps1
+powershell -file h:\domainjoin.ps1
+powershell -file i:\domainjoin.ps1
+powershell -file j:\domainjoin.ps1
+powershell -file k:\domainjoin.ps1
+powershell -file l:\domainjoin.ps1
+powershell -file m:\domainjoin.ps1
+powershell -file n:\domainjoin.ps1
+powershell -file o:\domainjoin.ps1
+#>
